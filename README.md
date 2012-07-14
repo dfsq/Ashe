@@ -7,7 +7,7 @@ Simple and lightweight templating library which supports simple variable replace
 Typically template content is stored inside `script` tags. This approach allows us easily get template when we need:
 
 ```html
-<script type="html/template" id="tpl_example">
+<script type="html/template" id="tpl-example">
 <!-- template html content goes here -->
 </script>
 ```

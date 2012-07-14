@@ -24,9 +24,6 @@
 						if (check) {
 							modif  = check[1];
 							params = check[2].split(/\s*,\s*/);
-							for (var j in params)
-								params[j] = evl(data, params[j]);
-							
 						}
 						params.unshift(repl);
 						modif = Ashe.modifiers[modif] || window[modif];
