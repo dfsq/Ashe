@@ -14,11 +14,11 @@
 	 */
     process = function(str, data) {
 		return str.replace(/\{_(\d+?)\}/g, function(a, b) {
-			var token = tokens[b], repl;
+			var token = tokens[b], repl, i;
 			if (!token.expr) {
 				repl = evl(data, tokens[b].buffer);
 				if (token.modif.length) {
-					for (var i in token.modif) {
+					for (i in token.modif) {
 						var modif = token.modif[i],
 							params = [],
 							check = token.modif[i].match(/(\w+)\(([\s\S]+)\)/);
@@ -45,8 +45,8 @@
 					case 'if':
 						var cond = evl(data, token.expr.cond);
 						block = token.buffer.match(cond
-							? /{%\s*if\s+.+?\s*%}([\s\S]*?){%/i
-							: /{%\s*else\s*%}([\s\S]*?){%/i
+							? /\{%\s*if\s+.+?\s*%\}([\s\S]*?)\{%/i
+							: /\{%\s*else\s*%\}([\s\S]*?)\{%/i
 						);
 						return block ? process(block[1], data) : '';
 
@@ -60,7 +60,7 @@
 						}
 
 						if (hasElements(loopData)) {
-							block = token.buffer.match(/{%\s*for.*?\s*%}([\s\S]*?){%/i);
+							block = token.buffer.match(/\{%\s*for.*?\s*%\}([\s\S]*?)\{%/i);
 							if (block) {
 								var key, k,
 									elem = token.expr.elem,
@@ -85,13 +85,13 @@
 							return '';
 						}
 						else {
-							block = token.buffer.match(/{%\s*else\s*%}([\s\S]*?){%/i);
+							block = token.buffer.match(/\{%\s*else\s*%\}([\s\S]*?)\{%/i);
 							return block ? process(block[1], loopData) : '';
 						}
 
 					case 'set':
 						var t = token.expr,
-							v = t.sval ? evl(data, t.sval) : process(token.buffer.replace(/{%.*?%}/g , ''), data);
+							v = t.sval ? evl(data, t.sval) : process(token.buffer.replace(/\{%.*?%\}/g , ''), data);
 						data[t.svar] = v;
 						return '';
 				}
