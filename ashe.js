@@ -3,6 +3,8 @@
  */
 (function() {
 	
+	"use strict";
+	
 	var uid, tokens,
 			
 	/**
@@ -11,10 +13,10 @@
 	 * @param {Object} data Data for template.
 	 */
     process = function(str, data) {
-		return str.replace(/{_(\d+?)}/g, function(a, b) {
-			var token = tokens[b];
+		return str.replace(/\{_(\d+?)\}/g, function(a, b) {
+			var token = tokens[b], repl;
 			if (!token.expr) {
-				var repl = evl(data, tokens[b].buffer);
+				repl = evl(data, tokens[b].buffer);
 				if (token.modif.length) {
 					for (var i in token.modif) {
 						var modif = token.modif[i],

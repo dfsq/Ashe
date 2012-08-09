@@ -1,6 +1,7 @@
 /**
  * List of Ashe modifiers.
  */
+var Ashe = Ashe || {};
 Ashe.addModifiers({
 	/**
 	 * Convert value to uppercase.
